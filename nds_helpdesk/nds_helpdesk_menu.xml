@@ -1,0 +1,30 @@
+<openerp>
+    <data>
+
+
+        <record model="ir.actions.act_window" id="nds_helpdesk_action">
+            <field name="name">Helpdesk Requests</field>
+            <field name="res_model">nds.helpdesk</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="view_id" ref="tree_view_helpdesk_nds"/>
+            <!-- <field name="search_view_id" ref="view_crm_case_helpdesk_filter"/> -->
+            <field name="context">{"search_default_user_id":uid}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new request.
+              </p><p>
+                Helpdesk and Support allow you to track your interventions.
+              </p><p>
+                NDS helpdesk was developed to attend NDS informatica requirments
+                if you have any ideas that can help us enhance the service
+                please mail us on ideas@datashow.duckdns.org.
+              </p>
+            </field>
+        </record>
+
+        <menuitem name="NDS Helpdesk" id="menu_help_support_nds"
+            groups="base.group_sale_salesman"
+            parent="base.menu_aftersale" action="nds_helpdesk_action" sequence="2"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!-- This is the tree view that will be called by the MENU item Helpdesk NDS-->
+        <record model="ir.ui.view" id="tree_view_helpdesk_nds">
+            <field name="name">Helpdesk NDS Support Tree</field>
+            <field name="model">nds.helpdesk</field>
+            <field name="arch" type="xml">
+                <tree string="Helpdesk NDS Support Tree"
+                    colors="black:state=='open';blue:state=='pending';gray:state in ('cancel','done')">
+                    <field name="name" string="Solicitação" />
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="date" string="Data"/>
+                    <field name="date_deadline"/>
+                    <field name="user_id"/>
+                    <field name="section_id" groups="base.group_multi_salesteams"/>
+                   <field name="priority"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+<!-- This is the Form view that will be called by the create button or the form button-->
+
+        <record model="ir.ui.view" id="form_view_helpdesk_nds">
+            <field name="name">Helpdesk NDS Support Form</field>
+            <field name="model">nds.helpdesk</field>
+            <field name="arch" type="xml">
+                <form string="Helpdesk NDS Support">
+                <header>
+                    <button name="case_escalate" string="Escalate" type="object"
+                            states="open,draft,pending"/>
+                    <field name="state" nolabel="1" widget="statusbar"
+                            statusbar_colors='{"pending":"blue"}'/>
+                </header>
+                <sheet string="Helpdesk Support">
+                    <group col="4" class="oe_header">
+                        <field name="name" string="Solicitação"/>
+                        <field name="section_id" widget="selection" groups="base.group_multi_salesteams" />
+                        <field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'base.group_sale_salesman_all_leads']}" string="Tecnico"/>
+                        <field name="date" string="Data"/>
+                        <field name="date_deadline" string="Prazo"/>
+                    </group>
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group string="Communication">
+                                    <field name="partner_id"
+                                        on_change="on_change_partner_id(partner_id)" string="Cliente"/>
+                                    <field name="email_from"/>
+                                </group>
+                                <group string="Categorization">
+                                    <field name="priority" widget="priority"/>
+                                    <!-- this tag will list all the categories created in the menu helpesk{categories}-->
+                                    <field name="categ_id" domain="[('object_id.model', '=', 'crm.helpdesk')]" context="{'object_name': 'crm.helpdesk'}"/>
+                                    <field name="channel_id"/>
+                                </group>
+                            </group>
+
+                            <separator string="Notes"/>
+                            <field name="description"/>
+                        </page>
+                        <page string="Extra Info">
+                            <group>
+                                <group groups="base.group_no_one" string="Dates">
+                                    <field name="create_date"/>
+                                    <field name="write_date"/>
+                                    <field name="date_closed"/>
+                                </group>
+                                <group string="Misc">
+                                    <field name="id"/>
+                                    <field name="active"/>
+                                </group>
+                                <group string="Estimates">
+                                    <field name="planned_cost"/>
+                                </group>
+                                <group string="References">
+                                    <field name="ref"/>
+                                    <field name="ref2"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</openerp>
